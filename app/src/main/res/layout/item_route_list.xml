@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
                 android:textSize="13sp"
-                android:gravity="start"
+                android:gravity="center"
                 tools:text="@string/null_text"/>
         </LinearLayout>
 

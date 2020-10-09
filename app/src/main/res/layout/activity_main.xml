@@ -94,24 +94,36 @@
         android:paddingBottom="5dp">
 
         <LinearLayout
+            android:id="@+id/ll_dest_prefix"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:weightSum="1"
             android:orientation="horizontal"
             android:paddingStart="17dp">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="start"
+                android:layout_weight="0"
                 android:text="@string/dest_prefix"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:gravity="start"
+                android:background="@drawable/ic_sort_by_alpha_grey"/>
+
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_protocol"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -119,17 +131,26 @@
             android:padding="5dp">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3.5dp"
                 android:gravity="center"
+                android:layout_weight="0"
                 android:text="@string/protocol"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:layout_weight="0"
+                android:background="@drawable/ic_sort_by_alpha_grey"/>
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_age"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -137,29 +158,45 @@
             android:padding="5dp">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3.5dp"
-                android:gravity="start"
+                android:gravity="center"
+                android:layout_weight="0"
                 android:text="@string/age"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:layout_weight="0"
+                android:background="@drawable/ic_sort_by_alpha_grey"/>
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_next_hop"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
                 android:text="@string/next_hop"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:layout_weight="0"
+                android:background="@drawable/ic_sort_by_alpha_grey"/>
 
         </LinearLayout>
 

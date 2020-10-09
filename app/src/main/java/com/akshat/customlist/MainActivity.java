@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.akshat.customlist.models.RoutingData;
+import com.akshat.customlist.utils.SortUtil;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -39,7 +40,12 @@ public class MainActivity extends AppCompatActivity {
     public RequestQueue rQueue;
     public List<RoutingData> routes = new ArrayList<>();
 
-    String URL = "https://gist.githubusercontent.com/git-akshat/5105aaae3df799bdc22257112c922337/raw/a58eb28b591bae62d501c9df373719c45f11d4b7/routing_info.json";
+    LinearLayout llDestPrefix;
+    LinearLayout llProtocol;
+    LinearLayout llAge;
+    LinearLayout llNextHop;
+
+    String URL = "https://gist.githubusercontent.com/git-akshat/5105aaae3df799bdc22257112c922337/raw/d7a29e75664428a35290963ea30f484931965e00/routing_info.json";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
         searchIcon = findViewById(R.id.search_icon);
         closeIcon = findViewById(R.id.close_icon);
         dataLayout = findViewById(R.id.data_layout);
+
+        llDestPrefix = findViewById(R.id.ll_dest_prefix);
+        llAge = findViewById(R.id.ll_age);
+        llProtocol = findViewById(R.id.ll_protocol);
+        llNextHop = findViewById(R.id.ll_next_hop);
 
         toolBarTitle.setText("WAN1: Routes");
 
@@ -87,8 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (s.length() > 0) {
                     closeIcon.setVisibility(View.VISIBLE);
                 }
-                Toast.makeText(MainActivity.this, s.toString(), Toast.LENGTH_SHORT).show();
-                showRoutingList(routes, s);
+                showRoutingList(routes, s.toString().toLowerCase());
             }
 
             @Override
@@ -103,10 +113,15 @@ public class MainActivity extends AppCompatActivity {
                 showRoutingList(routes, null);
             }
         });
+
     }
 
-    private void showRoutingList(List<RoutingData> routes, CharSequence keyword) {
+    private void showRoutingList(List<RoutingData> routes, String keyword) {
         placeHolderView.removeAllViews();
+        List<RoutingData> routingDataList = new ArrayList<>();
+
+        int count = 0;
+
         if (routes.size() == 0) {
             dataLayout.setVisibility(View.GONE);
             emptyLayout.setVisibility(View.VISIBLE);
@@ -115,9 +130,16 @@ public class MainActivity extends AppCompatActivity {
             emptyLayout.setVisibility(View.GONE);
 
             for (RoutingData r : routes) {
-                if (searchText.getText().toString().trim().equals("") || r.getProtocol().contains(keyword) || r.getDestPrefix().contains(keyword) || r.getNext_hop().contains(keyword)) {
+                if (searchText.getText().toString().trim().equals("") || r.getProtocol().toLowerCase().contains(keyword) || r.getDestPrefix().toLowerCase().contains(keyword) || r.getNext_hop().toLowerCase().contains(keyword)) {
                     placeHolderView.addView(new RouteViewItem(r, this));
+                    routingDataList.add(r);
+                    count++;
                 }
+            }
+
+            if (count == 0) {
+                emptyLayout.setVisibility(View.VISIBLE);
+                dataLayout.setVisibility(View.GONE);
             }
         }
 
@@ -126,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             closeIcon.setVisibility(View.GONE);
         }
+        sortData(routingDataList);
     }
 
     public void jsonParse(String url) {
@@ -163,6 +186,44 @@ public class MainActivity extends AppCompatActivity {
                 .INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager
                 .HIDE_NOT_ALWAYS);
+    }
+
+    private void sortData(final List<RoutingData> routingDataList) {
+        llDestPrefix.setOnClickListener(view -> {
+            llProtocol.getChildAt(1).setBackgroundResource(R.drawable.ic_sort_by_alpha_grey);
+            llDestPrefix.getChildAt(1).setBackgroundResource(R.drawable.ic_sort_by_alpha_blue);
+            llAge.getChildAt(1).setBackgroundResource(R.drawable.ic_sort_by_alpha_grey);
+            llNextHop.getChildAt(1).setBackgroundResource(R.drawable.ic_sort_by_alpha_grey);
+            SortUtil.sortByDestPrefix(routingDataList);
+            showRoutingList(routingDataList, "");
+        });
+
+        llProtocol.setOnClickListener(view -> {
+            llProtocol.getChildAt(1).setBackgroundResource(R.drawable.ic_sort_by_alpha_blue);
+            llDestPrefix.getChildAt(1).setBackgroundResource(R.drawable.ic_sort_by_alpha_grey);
+            llAge.getChildAt(1).setBackgroundResource(R.drawable.ic_sort_by_alpha_grey);
+            llNextHop.getChildAt(1).setBackgroundResource(R.drawable.ic_sort_by_alpha_grey);
+            SortUtil.sortByProtocol(routingDataList);
+            showRoutingList(routingDataList, "");
+        });
+
+        llAge.setOnClickListener(view -> {
+            llProtocol.getChildAt(1).setBackgroundResource(R.drawable.ic_sort_by_alpha_grey);
+            llDestPrefix.getChildAt(1).setBackgroundResource(R.drawable.ic_sort_by_alpha_grey);
+            llAge.getChildAt(1).setBackgroundResource(R.drawable.ic_sort_by_alpha_blue);
+            llNextHop.getChildAt(1).setBackgroundResource(R.drawable.ic_sort_by_alpha_grey);
+            SortUtil.sortByAge(routingDataList);
+            showRoutingList(routingDataList, "");
+        });
+
+        llNextHop.setOnClickListener(view -> {
+            llProtocol.getChildAt(1).setBackgroundResource(R.drawable.ic_sort_by_alpha_grey);
+            llDestPrefix.getChildAt(1).setBackgroundResource(R.drawable.ic_sort_by_alpha_grey);
+            llAge.getChildAt(1).setBackgroundResource(R.drawable.ic_sort_by_alpha_grey);
+            llNextHop.getChildAt(1).setBackgroundResource(R.drawable.ic_sort_by_alpha_blue);
+            SortUtil.sortByNextHop(routingDataList);
+            showRoutingList(routingDataList, "");
+        });
     }
 
 }
