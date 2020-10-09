@@ -1,0 +1,2 @@
+rootProject.name='CustomList'
+include ':app'

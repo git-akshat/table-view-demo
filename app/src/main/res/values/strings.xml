@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">CustomList</string>
+    <string name="hint_org_search">Search</string>
+    <string name="dest_prefix">Dest Prefix</string>
+    <string name="protocol">Protocol</string>
+    <string name="age">Age</string>
+    <string name="next_hop">Next Hop</string>
+    <string name="no_record_found">No Record Found !</string>
+    <string name="null_text">null</string>
+</resources>
